@@ -4,7 +4,7 @@
  *  of the current git repository. 
  *
  *  The idea is that CMake generates these functions during pre-build 
- *  so that the each compiled version of a code contains information
+ *  so that each compiled version of a code contains information
  *  from which branch/commit/date it is.
  */
 namespace git_info
