@@ -24,9 +24,9 @@ add_dependencies(my_test git_info_file_cpp)
 ```
 
 ## Overview
-It is often desireable to store some kind of version number of your code in your executable.
+It is often desirable to store some kind of version number of your code in your executable.
 Manually keeping track of it is tedious and prone to errors. Doing it automatically in CMake often
-seems to be quite tedious, too, having to work around the fact that "configure_file" is
+seems to be quite tedious, too, having to work around the fact that `configure_file` is
 only called during project creation and not before each build etc. Some solutions available
 online also introduce extra source files one has to take care of, which makes these solutions
 even more unattractive.
@@ -62,4 +62,5 @@ clear location inside the project.
 ### Keeping CMake usage simple
 Nothing is more useless than a solution that requires as many lines to use
 as it would take to rewrite the solution. So keeping it short and simple when
-used is part of the idea of this project.
+used is part of the idea of this project. This also means that before each build
+the git information is updated without any manual CMake solution re-creation.
