@@ -2,7 +2,25 @@
 A CMake script that provides git-repository information as C++ header or python files.
 
 ## For the impatient
+### Installation
+Just copy the project as a subfolder into your project.
+### Usage
+This simple demo shows how you can use git_info in your project.
+```cmake
+cmake_minimum_required(VERSION 3.6)
+project(my_awesome_project CXX)
 
+# Adding this subdirectory will make the macro `create_git_info_file` available
+# Currently this can be called with cpp or python
+add_subdirectory(path/to/git_info)
+create_git_info_file(headers/test.hpp cpp)
+
+add_executable(my_test src/main.cpp)
+# The call to `create_git_info_file` with parameter cpp makes this dependency
+# available, if the macro above was called with python, the target would end
+# with `_python`
+add_dependencies(my_test git_info_file_cpp)
+```
 
 ## Overview
 It is often desireable to store some kind of version number of your code in your executable.
