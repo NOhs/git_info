@@ -12,8 +12,9 @@ project(my_awesome_project CXX)
 
 # Adding this subdirectory will make the macro `create_git_info_file` available
 # Currently this can be called with cpp or python
+# The name of the file is your choice
 add_subdirectory(path/to/git_info)
-create_git_info_file(headers/test.hpp cpp)
+create_git_info_file(headers/my_git_info_header.hpp cpp)
 
 add_executable(my_test src/main.cpp)
 # The call to `create_git_info_file` with parameter cpp makes this dependency
