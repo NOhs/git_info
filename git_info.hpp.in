@@ -1,0 +1,60 @@
+#pragma once
+
+/** Namespace containing access functions to information
+ *  of the current git repository. 
+ *
+ *  The idea is that CMake generates these functions during pre-build 
+ *  so that the each compiled version of a code contains information
+ *  from which branch/commit/date it is.
+ */
+namespace git_info
+{
+    /** SHA1 value of the current commit
+     *
+     *  The used git function for this value is:
+     *  
+     *      git describe --always --dirty --abbrev=40 --match="NoTagHasThisNaMe
+     */
+    constexpr char SHA1[] = "@sha1@";
+
+    /** Boolean constant that is true if and only if the code was compiled with uncommited code changes
+     *
+     *  The value is extracted during file generation from the end of git_info::get_sha1()
+     */
+    constexpr bool IS_DIRTY = @is_dirty@;
+
+    /** Name of the branch that was built
+     *
+     *  The used git function for this value is:
+     *  
+     *      git rev-parse --abbrev-ref HEAD
+     */
+    constexpr char BRANCH[] = "@branch@";
+
+    /** SHA1 value of the current commit in human readable format
+     *
+     *  The used git function for this value is:
+     *  
+     *      git describe --always --dirty
+     *
+     *      \note possible SHA1 conflicts can occur as this version does not 
+     *            use as many digits as git_info::get_sha1()
+     */
+    constexpr char SHA1_PRETTY[] = "@sha1_pretty@";
+
+    /** Date of the last commit of the branch that was built - in local time
+     *
+     *  The used git function for this value is:
+     *  
+     *      git log -1 --format=%ad --date=local
+     */
+    constexpr char LAST_COMMIT_TIME[] = "@last_commit_time@";
+
+    /** Subject of the last commit of the branch that was built
+     *
+     *  The used git function for this value is:
+     *  
+     *      git log -1 --format=%s
+     */
+    constexpr char LAST_COMMIT_SUBJECT[] = "@last_commit_subject@";
+}

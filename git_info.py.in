@@ -1,0 +1,23 @@
+"""
+git_info module can be used with a git
+repository to indicate which version
+of a given python project is used/installed.
+
+git_info provides several globals that
+can be used to trace back the exact
+git version:
+
+ - SHA1 -- A 40-digit hash plus possible "-dirty" appendix
+ - IS_DIRTY -- Indicates if uncommited changes are present
+ - BRANCH -- The branch used
+ - SHA1_PRETTY -- A more human readable sha1 including tags
+ - LAST_COMMIT_TIME -- The commit time in local format
+ - LAST_COMMIT_SUBJECT -- The short description of the last commit
+"""
+
+SHA1 = '@sha1@'
+IS_DIRTY = @is_dirty@
+BRANCH = '@branch@'
+SHA1_PRETTY = '@sha1_pretty@'
+LAST_COMMIT_TIME = '@last_commit_time@'
+LAST_COMMIT_SUBJECT = '@last_commit_subject@'
