@@ -1,7 +1,7 @@
 # Defines macro that allows people to inject a header
 # into their source tree.
 #
-# Requires: Python >= 3.6
+# Requires: Python >= 3.5
 #
 # Usage: If header_path_name is the path/name where to
 #        inject the header to
@@ -12,7 +12,7 @@
 cmake_minimum_required(VERSION 3.6)
 project(git_info CXX)
 
-find_package(PythonInterp 3.6 REQUIRED)
+find_package(PythonInterp 3.5 REQUIRED)
 
 set_property(GLOBAL PROPERTY git_info_script_path ${CMAKE_CURRENT_LIST_DIR})
 
