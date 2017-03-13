@@ -14,20 +14,24 @@ project(git_info CXX)
 
 find_package(PythonInterp 3.6 REQUIRED)
 
+set_property(GLOBAL PROPERTY git_info_script_path ${CMAKE_CURRENT_LIST_DIR})
+
 macro(create_git_info_file header_path_name language)
+    get_property(_filepath GLOBAL PROPERTY git_info_script_path)
+
     if(${language} STREQUAL "cpp")
-        set(header_in ${CMAKE_CURRENT_SOURCE_DIR}/git_info.hpp.in)
+        set(header_in "${_filepath}/git_info.hpp.in")
     elseif(${language} STREQUAL "python")
-        set(header_in ${CMAKE_CURRENT_SOURCE_DIR}/git_info.py.in)
+        set(header_in "${_filepath}/git_info.py.in")
     else()
         message(SEND_ERROR "Language ${language} for git_info is not defined.")
-    endif()
+    endif()   
 
-    set(header_tmp ${CMAKE_CURRENT_BINARY_DIR}/git_info_${language}.tmp)
+    set(header_tmp "${_filepath}/git_info_${language}.tmp")
 
     add_custom_command(
         OUTPUT ${header_tmp}
-        COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/create_git_info_header.py ${header_in} ${language} ${header_tmp}
+        COMMAND ${PYTHON_EXECUTABLE} ${_filepath}/create_git_info_header.py ${header_in} ${language} ${header_tmp}
         COMMAND ${CMAKE_COMMAND} -E copy_if_different ${header_tmp} ${header_path_name}
         COMMAND ${CMAKE_COMMAND} -E remove ${header_tmp}        
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
