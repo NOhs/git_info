@@ -15,7 +15,7 @@ namespace git_info
      *  
      *      git describe --always --dirty --abbrev=40 --match="NoTagHasThisNaMe
      */
-    constexpr char SHA1[] = "@sha1@";
+    constexpr char SHA1[] = R"(@sha1@)";
 
     /** Boolean constant that is true if and only if the code was compiled with uncommited code changes
      *
@@ -29,7 +29,7 @@ namespace git_info
      *  
      *      git rev-parse --abbrev-ref HEAD
      */
-    constexpr char BRANCH[] = "@branch@";
+    constexpr char BRANCH[] = R"(@branch@)";
 
     /** SHA1 value of the current commit in human readable format
      *
@@ -40,7 +40,7 @@ namespace git_info
      *      \note possible SHA1 conflicts can occur as this version does not 
      *            use as many digits as git_info::get_sha1()
      */
-    constexpr char SHA1_PRETTY[] = "@sha1_pretty@";
+    constexpr char SHA1_PRETTY[] = R"(@sha1_pretty@)";
 
     /** Date of the last commit of the branch that was built - in local time
      *
@@ -48,7 +48,7 @@ namespace git_info
      *  
      *      git log -1 --format=%ad --date=local
      */
-    constexpr char LAST_COMMIT_TIME[] = "@last_commit_time@";
+    constexpr char LAST_COMMIT_TIME[] = R"(@last_commit_time@)";
 
     /** Subject of the last commit of the branch that was built
      *
@@ -56,5 +56,5 @@ namespace git_info
      *  
      *      git log -1 --format=%s
      */
-    constexpr char LAST_COMMIT_SUBJECT[] = "@last_commit_subject@";
+    constexpr char LAST_COMMIT_SUBJECT[] = R"(@last_commit_subject@)";
 }
