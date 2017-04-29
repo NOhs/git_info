@@ -3,10 +3,15 @@
 #
 # Requires: Python >= 3.5
 #
-# Usage: If header_path_name is the path/name where to
-#        inject the header to
+# Usage: Call the defined macro `create_git_info_file`.
+#        The first argument should be a full file-pathname to
+#        where the info_file should be created. The second argument
+#        determines the language. Options are:
+#          - cpp
+#          - python
 #
-# >>> create_git_info_header_target("myFolder/myHeaderName.hpp")
+# >>> add_subdirectory(path_to_git_info_folder)
+# >>> create_git_info_file("${my_source_folder}/git_info.hpp" cpp)
 #
 
 cmake_minimum_required(VERSION 3.6)
@@ -27,27 +32,38 @@ macro(create_git_info_file header_path_name language)
         message(SEND_ERROR "Language ${language} for git_info is not defined.")
     endif()   
 
-    set(header_tmp "${_filepath}/git_info_${language}.tmp")
+    set(header_tmp "${CMAKE_CURRENT_BINARY_DIR}/git_info_${language}.tmp")
 
     add_custom_command(
         OUTPUT ${header_tmp}
         COMMAND ${PYTHON_EXECUTABLE} ${_filepath}/create_git_info_header.py ${header_in} ${language} ${header_tmp}
         COMMAND ${CMAKE_COMMAND} -E copy_if_different ${header_tmp} ${header_path_name}
-        COMMAND ${CMAKE_COMMAND} -E remove ${header_tmp}        
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
     
-    add_custom_target(git_info_file_${language} DEPENDS ${header_tmp})
+    add_custom_target(git_info_file_${language} ALL DEPENDS ${header_tmp})
     unset(header_in)
     unset(header_tmp)
-endmacro(create_git_info_file header_path_name)
+    unset(_filepath)
+endmacro(create_git_info_file header_path_name language)
 
 if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
-    create_git_info_file(test.hpp cpp)
-    create_git_info_file(test.py python)
+    create_git_info_file(test/git_info.hpp cpp)
+    create_git_info_file(test/git_info.py python)
+    
+    enable_testing()
 
-    add_executable(my_test main.cpp)
-    add_dependencies(my_test git_info_file_cpp)
+    add_test(
+        NAME              test_cpp_compile 
+        COMMAND           sh test_cpp_compiles.sh
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)
 
-    add_executable(my_test2 main.cpp)
-    add_dependencies(my_test2 git_info_file_python)
+    add_test(
+        NAME              test_python_works
+        COMMAND           sh test_python_runs.sh
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)
+
+    add_test(
+        NAME              test_python_cpp_output_equal
+        COMMAND           sh compare_cpp_python_output.sh
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)
 endif()

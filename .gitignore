@@ -1,7 +1,17 @@
 CMakeCache.txt
+Testing
 CMakeFiles
 CMakeScripts
 Makefile
 cmake_install.cmake
 install_manifest.txt
 CTestTestfile.cmake
+git_info.hpp
+git_info.py
+test_compile
+cpp_git.out
+python_git.out
+__pycache__
+git_info_cpp.tmp
+git_info_python.tmp
+
