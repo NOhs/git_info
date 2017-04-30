@@ -10,16 +10,31 @@
 #          - cpp
 #          - python
 #
+#       A CMake variable IS_GIT_REPOSITORY is defined so you can check
+#       if you are actually in a git repository.
+#
 # >>> add_subdirectory(path_to_git_info_folder)
-# >>> create_git_info_file("${my_source_folder}/git_info.hpp" cpp)
+# >>> if(IS_GIT_REPOSITORY)
+# >>>     create_git_info_file("${my_source_folder}/git_info.hpp" cpp)
+# >>> else()
+# >>>     roll custom solution for version file you might have
+# >>> endif(IS_GIT_REPOSITORY)
 #
 
 cmake_minimum_required(VERSION 3.6)
 project(git_info CXX)
 
+find_package(Git REQUIRED)
 find_package(PythonInterp 3.5 REQUIRED)
 
 set_property(GLOBAL PROPERTY git_info_script_path ${CMAKE_CURRENT_LIST_DIR})
+execute_process(
+    COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/check_in_git_repository.py 
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    OUTPUT_VARIABLE _IS_GIT_REPOSITORY)
+
+set(IS_GIT_REPOSITORY ${_IS_GIT_REPOSITORY})
+unset(_IS_GIT_REPOSITORY)
 
 macro(create_git_info_file header_path_name language)
     get_property(_filepath GLOBAL PROPERTY git_info_script_path)
@@ -46,6 +61,9 @@ macro(create_git_info_file header_path_name language)
     unset(_filepath)
 endmacro(create_git_info_file header_path_name language)
 
+find_package_handle_standard_args(Git_Info
+                                  REQUIRED_VARS IS_GIT_REPOSITORY)
+
 if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
     create_git_info_file(test/git_info.hpp cpp)
     create_git_info_file(test/git_info.py python)
@@ -66,4 +84,6 @@ if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
         NAME              test_python_cpp_output_equal
         COMMAND           sh compare_cpp_python_output.sh
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)
+
+    message(${IS_GIT_REPOSITORY})
 endif()
