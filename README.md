@@ -24,17 +24,34 @@ This simple demo shows how you can use git_info in your project.
 cmake_minimum_required(VERSION 3.6)
 project(my_awesome_project CXX)
 
-# Adding this subdirectory will make the macro `create_git_info_file` available
+# Adding this subdirectory will make the macro `create_git_info_file` and the CMake variable `IS_GIT_REPOSITORY` available
 # Currently this can be called with cpp or python
 # The name of the file is your choice
+#
+# Note that before you add the subdirectory you must define
+# `git_info_REMOTE_PATTERN` so that `git_info` can detect
+# that it is in the correct git repository
+# 
+# e.g. for https://github.com/user/repository.git
+set(git_info_REMOTE_PATTERN "/user/repository.git")
+
 add_subdirectory(path/to/git_info)
-create_git_info_file(headers/my_git_info_header.hpp cpp)
 
 add_executable(my_test src/main.cpp)
-# The call to `create_git_info_file` with parameter cpp makes this dependency
-# available, if the macro above was called with python, the target would end
-# with `_python`
-add_dependencies(my_test git_info_file_cpp)
+
+if(IS_GIT_REPOSITORY)
+    create_git_info_file(headers/my_git_info_header.hpp cpp)
+
+    # The call to `create_git_info_file` with parameter cpp makes this target
+    # available as a dependency. If the macro above was called with python, the target would end
+    # with `_python`
+    add_dependencies(my_test git_info_file_cpp)
+else()
+    # Read in your version file or whatever
+endif(IS_GIT_REPOSITORY)
+
+unset(git_info_REMOTE_PATTERN)
+
 ```
 
 ## Overview<a name="overview"></a>

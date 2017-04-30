@@ -1,69 +1,32 @@
-# Defines macro that allows people to inject a header
-# into their source tree.
-#
-# Requires: Python >= 3.5
-#
-# Usage: Call the defined macro `create_git_info_file`.
-#        The first argument should be a full file-pathname to
-#        where the info_file should be created. The second argument
-#        determines the language. Options are:
-#          - cpp
-#          - python
-#
-# >>> add_subdirectory(path_to_git_info_folder)
-# >>> create_git_info_file("${my_source_folder}/git_info.hpp" cpp)
-#
+cmake_minimum_required(VERSION 3.6 FATAL_ERROR)
 
-cmake_minimum_required(VERSION 3.6)
-project(git_info CXX)
+project(git_info_test)
 
-find_package(PythonInterp 3.5 REQUIRED)
+set(git_info_REMOTE_PATTERN "NOhs/git_info.git")
+add_subdirectory(git_info)
 
-set_property(GLOBAL PROPERTY git_info_script_path ${CMAKE_CURRENT_LIST_DIR})
+create_git_info_file(test/git_info.hpp cpp)
+create_git_info_file(test/git_info.py python)
 
-macro(create_git_info_file header_path_name language)
-    get_property(_filepath GLOBAL PROPERTY git_info_script_path)
+enable_testing()
 
-    if(${language} STREQUAL "cpp")
-        set(header_in "${_filepath}/git_info.hpp.in")
-    elseif(${language} STREQUAL "python")
-        set(header_in "${_filepath}/git_info.py.in")
-    else()
-        message(SEND_ERROR "Language ${language} for git_info is not defined.")
-    endif()   
+add_test(
+    NAME              test_cpp_compile 
+    COMMAND           sh test_cpp_compiles.sh
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)
 
-    set(header_tmp "${CMAKE_CURRENT_BINARY_DIR}/git_info_${language}.tmp")
+add_test(
+    NAME              test_python_works
+    COMMAND           sh test_python_runs.sh
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)
 
-    add_custom_command(
-        OUTPUT ${header_tmp}
-        COMMAND ${PYTHON_EXECUTABLE} ${_filepath}/create_git_info_header.py ${header_in} ${language} ${header_tmp}
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${header_tmp} ${header_path_name}
-        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
-    
-    add_custom_target(git_info_file_${language} ALL DEPENDS ${header_tmp})
-    unset(header_in)
-    unset(header_tmp)
-    unset(_filepath)
-endmacro(create_git_info_file header_path_name language)
+add_test(
+    NAME              test_python_cpp_output_equal
+    COMMAND           sh compare_cpp_python_output.sh
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)
 
-if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
-    create_git_info_file(test/git_info.hpp cpp)
-    create_git_info_file(test/git_info.py python)
-    
-    enable_testing()
+if(NOT ${IS_GIT_REPOSITORY})
+    message(FATAL_ERROR "Not in a git repository!")
+endif(NOT ${IS_GIT_REPOSITORY})
 
-    add_test(
-        NAME              test_cpp_compile 
-        COMMAND           sh test_cpp_compiles.sh
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)
-
-    add_test(
-        NAME              test_python_works
-        COMMAND           sh test_python_runs.sh
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)
-
-    add_test(
-        NAME              test_python_cpp_output_equal
-        COMMAND           sh compare_cpp_python_output.sh
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)
-endif()
+unset(git_info_REMOTE_PATTERN)
