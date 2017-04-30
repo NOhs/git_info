@@ -26,7 +26,7 @@
 # >>> unset(git_info_REMOTE_PATTERN)
 #
 
-cmake_minimum_required(VERSION 3.6)
+cmake_minimum_required(VERSION 3.0)
 project(git_info CXX)
 
 
