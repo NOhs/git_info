@@ -1,4 +1,4 @@
-# git_info
+# git_info [![Build Status](https://travis-ci.org/NOhs/git_info.svg?branch=master)](https://travis-ci.org/NOhs/git_info)
 A CMake script that provides git-repository information as C++ header or python files.
 ### Table of contents
 
