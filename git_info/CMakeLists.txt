@@ -36,7 +36,7 @@ if(git_info_REMOTE_PATTERN)
 
     set_property(GLOBAL PROPERTY git_info_script_path ${CMAKE_CURRENT_LIST_DIR})
     execute_process(
-        COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/check_in_git_repository.py "'${git_info_REMOTE_PATTERN}'"
+        COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/check_in_git_repository.py ${git_info_REMOTE_PATTERN}
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
         OUTPUT_VARIABLE _IS_GIT_REPOSITORY)
 
