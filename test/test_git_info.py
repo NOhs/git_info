@@ -1,8 +1,9 @@
 import git_info
 
-print("SHA1: ", git_info.SHA1)
-print("Is dirty: ", git_info.IS_DIRTY)
-print("Branch name: ", git_info.BRANCH)
-print("SHA1 pretty: ", git_info.SHA1_PRETTY)
-print("Commit time: ", git_info.LAST_COMMIT_TIME)
-print("Last commit subject: ", git_info.LAST_COMMIT_SUBJECT)
+with open('python_git.out', 'w') as txt_file:
+    txt_file.write("SHA1:  "+ str(git_info.SHA1) + "\n")
+    txt_file.write("Is dirty:  "+ str(git_info.IS_DIRTY) + "\n")
+    txt_file.write("Branch name:  "+ str(git_info.BRANCH) + "\n")
+    txt_file.write("SHA1 pretty:  "+ str(git_info.SHA1_PRETTY) + "\n")
+    txt_file.write("Commit time:  "+ str(git_info.LAST_COMMIT_TIME) + "\n")
+    txt_file.write("Last commit subject:  "+ str(git_info.LAST_COMMIT_SUBJECT) + "\n")

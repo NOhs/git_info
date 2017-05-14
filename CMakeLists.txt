@@ -10,20 +10,23 @@ create_git_info_file(test/git_info.py python)
 
 enable_testing()
 
+add_executable(test_compile test/test_compile.cpp)
+
 add_test(
     NAME              test_cpp_compile 
-    COMMAND           sh test_cpp_compiles.sh
+    COMMAND           $<TARGET_FILE:test_compile>
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)
 
 add_test(
     NAME              test_python_works
-    COMMAND           sh test_python_runs.sh
+    COMMAND           ${PYTHON_EXECUTABLE} test_git_info.py
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)
 
 add_test(
     NAME              test_python_cpp_output_equal
-    COMMAND           sh compare_cpp_python_output.sh
+    COMMAND           ${CMAKE_COMMAND} -E compare_files python_git.out cpp_git.out
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)
+
 
 if(NOT ${IS_GIT_REPOSITORY})
     message(FATAL_ERROR "Not in a git repository!")
