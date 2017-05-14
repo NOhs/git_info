@@ -16,7 +16,7 @@ before_build:
   - cmake -H. -Btest -A%PLATFORM%
 
 build:
-  - project test/git_info_test.sln
+  - project: test/git_info_test.sln
   - parallel: true
 
 test_script:
