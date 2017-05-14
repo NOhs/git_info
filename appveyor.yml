@@ -1,0 +1,24 @@
+version: "{build}"
+
+os:
+  - Visual Studio 2017
+  - Visual Studio 2015
+  - Visual Studio 2013
+
+platform:
+  - x64
+
+configuration:
+  - Debug
+  - Release
+
+before_build:
+  - cmake -H. -Btest -A%PLATFORM%
+
+build:
+  - project test/git_info_test.sln
+  - parallel: true
+
+test_script:
+  - cd test
+  - ctest -C %CONFIGURATION% -VV
