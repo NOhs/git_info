@@ -12,6 +12,10 @@ configuration:
   - Debug
   - Release
 
+environment:
+  matrix:
+  - PYTHON: "C:\Python36-x64"
+
 before_build:
   - cmake -H. -Btest -A%PLATFORM%
 
