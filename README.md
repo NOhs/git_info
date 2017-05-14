@@ -99,6 +99,9 @@ Nothing is more useless than a solution that requires as many lines to use
 as it would take to rewrite the solution. So keeping it short and simple when
 used is part of the idea of this project. This also means that before each build
 the git information is updated without any manual CMake solution re-creation.
+Changes are communicated via a temporary file. Rebuilds will only happen if the
+git information did indeed change as otherwise the target header file will not
+be updated.
 
 ## Exported files<a name="exported_files"></a>
 Once the files have been created, the following functionality is available.
