@@ -17,6 +17,8 @@ environment:
   - PYTHON: "C:\Python36-x64"
 
 before_build:
+  - where python3
+  - dir C:\Python36-x64
   - cmake -H. -Btest -A%PLATFORM%
 
 build:
