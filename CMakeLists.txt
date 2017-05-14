@@ -11,6 +11,7 @@ create_git_info_file(test/git_info.py python)
 enable_testing()
 
 add_executable(test_compile test/test_compile.cpp)
+add_dependencies(test_compile git_info_file_cpp)
 include_directories(${CMAKE_BINARY_DIR})
 
 add_test(
