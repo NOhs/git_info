@@ -29,6 +29,7 @@ test_script:
   - rename python_git.out python_git_clean.out
   - cd ..
   - type nul > dirty_file
+  - git add -A
   - cd test
   - ctest -C %CONFIGURATION% -VV
   - python -c "import sys; from filecmp import cmp; sys.exit(1) if cmp('python_git_clean.out', 'python_git.out', shallow=False) else sys.exit(0)"

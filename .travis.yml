@@ -16,6 +16,7 @@ script:
   - cd test && cmake .. && make && ctest -VV
   - cd ..
   - touch dirty_file
+  - git add -A
   - cd test 
   - mv python_git.out python_git_clean.out
   - make && ctest -VV
