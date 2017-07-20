@@ -57,9 +57,13 @@ if(git_info_REMOTE_PATTERN)
         set(header_tmp "${CMAKE_CURRENT_BINARY_DIR}/git_info_${language}.tmp")
 
         add_custom_command(
-            OUTPUT ${header_tmp}
-            COMMAND ${PYTHON_EXECUTABLE} ${_filepath}/create_git_info_header.py ${header_in} ${language} ${header_tmp}
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different ${header_tmp} ${header_path_name}
+            OUTPUT 
+                ${header_tmp}
+                ${header_tmp}_
+            COMMAND 
+                ${PYTHON_EXECUTABLE} ${_filepath}/create_git_info_header.py ${header_in} ${language} ${header_tmp}
+            COMMAND
+                ${CMAKE_COMMAND} -E copy_if_different ${header_tmp} ${header_path_name}
             WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
         
         add_custom_target(git_info_file_${language} ALL DEPENDS ${header_tmp})
