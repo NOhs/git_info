@@ -13,8 +13,10 @@ addons:
 script: 
   - export CXX=/usr/bin/g++-6
   - sudo ln -s /usr/bin/g++-6 /usr/local/bin/g++
-  - g++ -v
   - cd test && cmake .. && make && ctest -VV
-  - cmp cpp_git.out python_git.out
-  - cat cpp_git.out
-  - cat python_git.out
+  - cd ..
+  - touch dirty_file
+  - cd test 
+  - mv python_git.out python_git_clean.out
+  - make && ctest -VV
+  - python -c "import sys; from filecmp import cmp; sys.exit(1) if cmp('python_git_clean.out', 'python_git.out', shallow=False) else sys.exit(0)"
