@@ -30,7 +30,7 @@ test_script:
   - cd ..
   - type nul > dirty_file
   - git add -A
-  - msbuild test/git_info_test.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  - msbuild test/git_info_test.sln /t:Clean;Rebuild /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
   - cd test
   - ctest -C %CONFIGURATION% -VV
   - python -c "import sys; from filecmp import cmp; sys.exit(1) if cmp('python_git_clean.out', 'python_git.out', shallow=False) else sys.exit(0)"
