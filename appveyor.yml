@@ -30,6 +30,9 @@ test_script:
   - cd ..
   - type nul > dirty_file
   - git add -A
+  - git config --global user.email "you@example.com"
+  - git config --global user.name "Your Name"
+  - git commit -m "test'"
   - msbuild test/git_info_test.sln /t:Clean;Rebuild /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
   - cd test
   - ctest -C %CONFIGURATION% -VV

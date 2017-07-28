@@ -1,9 +1,9 @@
 #pragma once
 
 /** Namespace containing access functions to information
- *  of the current git repository. 
+ *  of the current git repository.
  *
- *  The idea is that CMake generates these functions during pre-build 
+ *  The idea is that CMake generates these functions during pre-build
  *  so that each compiled version of a code contains information
  *  from which branch/commit/date it is.
  */
@@ -12,10 +12,10 @@ namespace git_info
     /** SHA1 value of the current commit
      *
      *  The used git function for this value is:
-     *  
+     *
      *      git describe --always --dirty --abbrev=40 --match="NoTagHasThisNaMe
      */
-    constexpr char SHA1[] = R"(@sha1@)";
+    constexpr char SHA1[] = R"_git_info_(@sha1@)_git_info_";
 
     /** Boolean constant that is true if and only if the code was compiled with uncommited code changes
      *
@@ -26,35 +26,35 @@ namespace git_info
     /** Name of the branch that was built
      *
      *  The used git function for this value is:
-     *  
+     *
      *      git rev-parse --abbrev-ref HEAD
      */
-    constexpr char BRANCH[] = R"(@branch@)";
+    constexpr char BRANCH[] = R"_git_info_(@branch@)_git_info_";
 
     /** SHA1 value of the current commit in human readable format
      *
      *  The used git function for this value is:
-     *  
+     *
      *      git describe --always --dirty
      *
-     *      \note possible SHA1 conflicts can occur as this version does not 
+     *      \note possible SHA1 conflicts can occur as this version does not
      *            use as many digits as git_info::get_sha1()
      */
-    constexpr char SHA1_PRETTY[] = R"(@sha1_pretty@)";
+    constexpr char SHA1_PRETTY[] = R"_git_info_(@sha1_pretty@)_git_info_";
 
     /** Date of the last commit of the branch that was built - in local time
      *
      *  The used git function for this value is:
-     *  
+     *
      *      git log -1 --format=%ad --date=local
      */
-    constexpr char LAST_COMMIT_TIME[] = R"(@last_commit_time@)";
+    constexpr char LAST_COMMIT_TIME[] = R"_git_info_(@last_commit_time@)_git_info_";
 
     /** Subject of the last commit of the branch that was built
      *
      *  The used git function for this value is:
-     *  
+     *
      *      git log -1 --format=%s
      */
-    constexpr char LAST_COMMIT_SUBJECT[] = R"(@last_commit_subject@)";
+    constexpr char LAST_COMMIT_SUBJECT[] = R"_git_info_(@last_commit_subject@)_git_info_";
 }

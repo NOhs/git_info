@@ -1,6 +1,6 @@
 dist: trusty
 sudo: required
-language: 
+language:
   - cpp
 addons:
   apt:
@@ -10,14 +10,15 @@ addons:
       - g++-6
       - cmake
 
-script: 
+script:
   - export CXX=/usr/bin/g++-6
   - sudo ln -s /usr/bin/g++-6 /usr/local/bin/g++
   - cd test && cmake .. && make && ctest -VV
   - cd ..
   - touch dirty_file
   - git add -A
-  - cd test 
+  - git commit -m "test'"
+  - cd test
   - mv python_git.out python_git_clean.out
   - make && ctest -VV
   - python -c "import sys; from filecmp import cmp; sys.exit(1) if cmp('python_git_clean.out', 'python_git.out', shallow=False) else sys.exit(0)"

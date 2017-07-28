@@ -15,9 +15,9 @@ git version:
  - LAST_COMMIT_SUBJECT -- The short description of the last commit
 """
 
-SHA1 = '''@sha1@'''
+SHA1 = '''\n@sha1@\n'''[1:-1]
 IS_DIRTY = @is_dirty@
-BRANCH = '''@branch@'''
-SHA1_PRETTY = '''@sha1_pretty@'''
-LAST_COMMIT_TIME = '''@last_commit_time@'''
-LAST_COMMIT_SUBJECT = '''@last_commit_subject@'''
+BRANCH = '''\n@branch@\n'''[1:-1]
+SHA1_PRETTY = '''\n@sha1_pretty@\n'''[1:-1]
+LAST_COMMIT_TIME = '''\n@last_commit_time@\n'''[1:-1]
+LAST_COMMIT_SUBJECT = '''\n@last_commit_subject@\n'''[1:-1]
