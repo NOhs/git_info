@@ -38,10 +38,7 @@ if(git_info_REMOTE_PATTERN)
     execute_process(
         COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR}/check_in_git_repository.py ${git_info_REMOTE_PATTERN}
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-        OUTPUT_VARIABLE _IS_GIT_REPOSITORY)
-
-    set(IS_GIT_REPOSITORY ${_IS_GIT_REPOSITORY})
-    unset(_IS_GIT_REPOSITORY)
+        OUTPUT_VARIABLE IS_GIT_REPOSITORY)
 
     macro(create_git_info_file header_path_name language)
         get_property(_filepath GLOBAL PROPERTY git_info_script_path)
@@ -51,15 +48,15 @@ if(git_info_REMOTE_PATTERN)
         elseif(${language} STREQUAL "python")
             set(header_in "${_filepath}/git_info.py.in")
         else()
-            message(SEND_ERROR "Language ${language} for git_info is not defined.")
+            message(SEND_ERROR "Language '${language}' for git_info is not defined.")
         endif()   
 
-        set(header_tmp "${CMAKE_CURRENT_BINARY_DIR}/git_info_${language}.tmp")
+        set(header_tmp "git_info_${language}.tmp")
 
         add_custom_command(
             OUTPUT 
                 ${header_tmp}
-                ${header_tmp}_
+                ${header_tmp}_ # Needed to always check git
             COMMAND 
                 ${PYTHON_EXECUTABLE} ${_filepath}/create_git_info_header.py ${header_in} ${language} ${header_tmp}
             COMMAND
