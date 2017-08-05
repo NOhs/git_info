@@ -13,7 +13,10 @@ namespace git_info
      *
      *  The used git function for this value is:
      *
-     *      git describe --always --dirty --abbrev=40 --match="NoTagHasThisNaMe
+     *      git describe --always --dirty --abbrev=40 --match="NoTagHasThisNaMe"
+	 *
+	 *  A '-dirty' will be appended, if uncommited changes are present in
+	 *  the repository.
      */
     constexpr char SHA1[] = R"_git_info_(@sha1@)_git_info_";
 
@@ -31,16 +34,16 @@ namespace git_info
      */
     constexpr char BRANCH[] = R"_git_info_(@branch@)_git_info_";
 
-    /** SHA1 value of the current commit in human readable format
+    /** Current commit in human readable format
      *
      *  The used git function for this value is:
      *
-     *      git describe --always --dirty
-     *
-     *      \note possible SHA1 conflicts can occur as this version does not
-     *            use as many digits as git_info::get_sha1()
+     *      git describe --always --dirty --tags
+	 *
+	 *	\note If no tags were set, a short SHA1 is the best
+	 *        you can expect in terms of "human readable".
      */
-    constexpr char SHA1_PRETTY[] = R"_git_info_(@sha1_pretty@)_git_info_";
+    constexpr char TAG[] = R"_git_info_(@tag@)_git_info_";
 
     /** Date of the last commit of the branch that was built - in local time
      *

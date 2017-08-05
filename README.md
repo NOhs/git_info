@@ -117,7 +117,7 @@ A brief list of the variables:
 constexpr char SHA1[]
 constexpr bool IS_DIRTY
 constexpr char BRANCH[]
-constexpr char SHA1_PRETTY[]
+constexpr char TAG[]
 constexpr char LAST_COMMIT_TIME[]
 constexpr char LAST_COMMIT_SUBJECT[]
 ```
@@ -130,7 +130,7 @@ module doc_string.
 SHA1
 IS_DIRTY
 BRANCH
-SHA1_PRETTY
+TAG
 LAST_COMMIT_TIME
 LAST_COMMIT_SUBJECT
 ```

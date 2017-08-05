@@ -16,15 +16,15 @@ def get_git_info():
     - sha1
     - is_dirty
     - branch
-    - sha1_pretty
+    - tag
     - last_commit_time
     - last_commit_subject
     """
     git_info = {}
-    git_info['sha1'] = _check_output(['git', 'describe', '--always', '--dirty', '--abbrev=40', '--match="NoTagHasThisNaMe'])
+    git_info['sha1'] = _check_output(['git', 'describe', '--always', '--dirty', '--abbrev=40', '--match="NoTagHasThisNaMe"'])
     git_info['is_dirty'] = git_info['sha1'].endswith('-dirty')
     git_info['branch'] = _check_output(['git', 'rev-parse', '--abbrev-ref', 'HEAD'])
-    git_info['sha1_pretty'] = _check_output(['git', 'describe', '--always', '--dirty'])
+    git_info['tag'] = _check_output(['git', 'describe', '--always', '--dirty', '--tags'])
     git_info['last_commit_time'] = _check_output(['git', 'log', '-1', '--format=%ad', '--date=local'])
     git_info['last_commit_subject'] = _check_output(['git', 'log', '-1', '--format=%s'])
 
